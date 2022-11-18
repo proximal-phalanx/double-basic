@@ -7,7 +7,7 @@ mod ast_stream;
 mod parser;
 
 fn main() {
-    println!("Type in the file path (type in !number to run sample code):");
+    println!("Type in the file path (type in !number to run sample code)");
     let mut buf = String::from("");
     stdin().read_line(&mut buf).unwrap();
     if buf.starts_with('!'){
@@ -15,6 +15,10 @@ fn main() {
         buf = buf.trim_end().to_string();
         buf = format!("./samples/sample{}.bb", buf);
     }
+    else{
+        buf = buf.trim_end().to_string();
+    }
+    println!("{}", buf);
     let mut parser = parser::Parser::open_file(&buf);
     parser.run();
     // let debug = false;

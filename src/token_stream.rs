@@ -132,7 +132,13 @@ impl TokenStream{
             ret = Token::new(TokenType::ADD, String::from_utf8(vec![ch]).unwrap());
         }
         else if ch == '-' as u8{
-            ret = Token::new(TokenType::SUB, String::from_utf8(vec![ch]).unwrap());
+            if self.in_stream.peek().is_ascii_digit() {
+                let buf = self.read_until_f(|ch| {ch.is_ascii_digit() || ch == '.' as u8}, ch);
+                ret = Token::new(TokenType::NUMBER, buf);
+            }
+            else{
+                ret = Token::new(TokenType::SUB, String::from_utf8(vec![ch]).unwrap());
+            }
         }
         else if ch == '*' as u8{
             ret = Token::new(TokenType::MUL, String::from_utf8(vec![ch]).unwrap());
